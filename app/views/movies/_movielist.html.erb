@@ -1,0 +1,47 @@
+<%if(@results.any? && @results.is_a?(Array)) %>
+			<% @results.each do |result| %>
+				<div class="col-md-6 col-lg-4">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<div class="panel-title">
+								<div align="center"><b> <%= result['show']['name'].to_s %> </b></div>
+							</div>
+							<div class="panel-body">
+								<div align="center">
+									<%= link_to image_tag(result['show']['image']['medium'].to_s, :alt => "movie art"), movies_show_path(:id => result['show']['id'].to_s), method: :get %> <br/>
+									<b>Type:</b> <%= result['show']['type'].to_s %> <br/>
+									<b>Language:</b> <%= result['show']['language'].to_s %> <br/>
+									<b>Genres:</b>  <% if result['show']['genres'].any? %>
+														<% result['show']['genres'].each do |item| %>
+															<%= item ? item.to_s : "No Genres".to_s %>
+														<%end%><br/>
+													<% else %>
+													    <%= "No Genres".to_s %> <br/>
+													<%end%>
+									<b>Premiered:</b> <%= result['show']['premiered'].to_s %> <br/>
+									<b>Schedule:</b> <%= result['show']['schedule']['time'].present? ? result['show']['schedule']['time'].to_s : "No Fixed Time".to_s %>
+														<% if result['show']['schedule']['days'].any? %>
+														<% result['show']['schedule']['days'].each do |item| %>
+															<%= item ? "| Showing on " + item.to_s : "No Day".to_s %> <br/>
+														<%end%>
+													<% else %>
+													    <%= "| No Day".to_s %> <br/>
+													<%end%>
+									<b>Average Rating:</b> <%= result['show']['rating']['average'].to_s %> <br/>
+									<b>TV Network:</b> <%= result['show']['network'].present? ? result['show']['network']['name'].to_s : 'N/A' %> <br/>
+									<b>Country:</b> <%= result['show']['network'].present? ? result['show']['network']['country']['name'].to_s : 'N/A' %> <br/>
+
+									<b>Movie Summary:</b> <a data-toggle="collapse" data-target="#<%= result['show']['id'].to_s %>" href="#<%= result['show']['id'].to_s %>"> Read More... </a>
+
+									<div id="<%= result['show']['id'].to_s %>"  class="panel-collapse collapse">
+										<div class="alert alert-success">
+											<%= result['show']['summary'].html_safe %>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			<%end%>
+		<%end%>

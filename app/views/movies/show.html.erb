@@ -1,0 +1,116 @@
+<div align="center"><h2>Showing movie details</h2><hr/></div>
+
+<!-- <ul class="demo-1 effect">
+  <li>
+    <h2>This is a cool title!</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nost.</p>
+  </li>
+  <li><img class="top" src="<%= @result['image']['medium'].to_s %>" alt=""/></li>
+</ul> -->
+
+<div class="row">
+	<div class="col-md-5">
+		<% if(@result.present? )%>
+				<div class="panel panel-default">
+						<div class="panel-heading">
+							<div class="panel-title">
+								<div align="center"><b> <%= @result['name'].to_s %> </b></div>
+							</div>
+							<div class="panel-body">
+								<div align="center">
+									<%= link_to image_tag(@result['image']['medium'].to_s, :alt => "movie art"), movies_show_path(:id => @result['id'].to_s), method: :get %> <br/>
+									<b>Type:</b> <%= @result['type'].to_s %> <br/>
+									<b>Language:</b> <%= @result['language'].to_s %> <br/>
+									<b>Genres:</b>  <% if @result['genres'].any? %>
+														<% @result['genres'].each do |item| %>
+															<%= item ? item.to_s : "No Genres".to_s %>
+														<%end%><br/>
+													<% else %>
+													    <%= "No Genres".to_s %> <br/>
+													<%end%>
+									<b>Premiered:</b> <%= @result['premiered'].to_s %> <br/>
+									<b>Schedule:</b> <%= @result['schedule']['time'].present? ? @result['schedule']['time'].to_s : "No Fixed Time".to_s %>
+														<% if @result['schedule']['days'].any? %>
+														<% @result['schedule']['days'].each do |item| %>
+															<%= item ? "| Showing on " + item.to_s : "No Day".to_s %> <br/>
+														<%end%>
+													<% else %>
+													    <%= "| No Day".to_s %> <br/>
+													<%end%>
+									<b>Average Rating:</b> <%= @result['rating']['average'].to_s %> <br/>
+									<b>TV Network:</b> <%= @result['network'].present? ? @result['network']['name'].to_s : 'N/A' %> <br/>
+									<b>Country:</b> <%= @result['network'].present? ? @result['network']['country']['name'].to_s : 'N/A' %> <br/>
+
+									<b>Movie Summary:</b> <a data-toggle="collapse" data-target="#<%= @result['id'].to_s %>" href="#<%= @result['id'].to_s %>"> Show Me... </a>
+
+									<div id="<%= @result['id'].to_s %>"  class="panel-collapse collapse">
+										<div class="alert alert-success">
+											<%= @result['summary'].html_safe %>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+		<% else %>
+
+			<%= "No show" %>
+
+		<%end%>
+	</div>
+
+	<div class="col-md-7">
+	<h2>Previous Episodes</h2> <span style="color:green"><h2><div id="next" style="display:none;"></div></h2></span>
+		<table border="1" class="table table-bordered table-striped table-condensed table-hover">
+			<thead>
+				<th>
+					Episode Name
+				</th>
+				<th>
+					Airdate
+				</th>
+				<th>
+					Trailer
+				</th>
+			</thead>
+			<tbody>
+
+			<%if(@episodes.any? && @episodes.is_a?(Array)) %>
+				<% @episodes.each do |episode| %>
+					<tr>
+						<td>
+							<b>S</b> (<%= episode['season'].to_s %>) <b>Ep.</b> (<%= episode['number'].to_s %>)
+							<span style="color:green"><%= episode['name'].to_s %></span>
+							<div id="airstamp" style="display: none;"><%= episode['airstamp'].to_s %></div>
+						</td>
+						<td>
+							<b><%= episode['airdate'].to_s %></b>
+						</td>
+						<td>
+							<b>Something here</b>
+						</td>
+					</tr>
+				<%end%>
+			<%end %>
+			</tbody>
+		</table>
+
+		<h2>Show Cast</h2>
+		<div class="row">
+			<%if(@casts.any? && @casts.is_a?(Array)) %>
+				<% @casts.each do |cast| %>
+					<div class="col-xs-4 col-md-4">
+					<div class="thumbnail">
+						<%= image_tag(cast['person']['image']['medium'].to_s, :size => "122x80", :alt => "movie art") %>
+						<div class="caption" align="center">
+							<b><%= cast['person']['name'].to_s %></b>
+						</div>
+					</div>
+					
+					</div>
+				<%end%>
+			<%end %>
+			<%= link_to "Show full cast", movies_shows_path, method: :get, class: "btn btn-primary" %>
+		</div>
+	</div>
+</div>

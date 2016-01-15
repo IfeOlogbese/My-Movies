@@ -1,0 +1,35 @@
+<div align="center">
+	<h1>All Shows</h1>
+	<hr/>
+</div>
+
+<div class="container">
+	<div class="row row-offcanvas row-offcanvas-right">
+		<div id="list">
+      <%= render 'showlist' %>
+    </div>
+	</div>
+	<div align="center">
+			<%= will_paginate @results, renderer: BootstrapPagination::Rails %>
+  </div>
+
+  <div id="until2d">
+      hey!
+  </div>
+
+  <div data-countdown-until="<%= 10.days.from_now %>">
+
+  </div>
+
+  <div id="getting-started"></div>
+   <script type="text/javascript">
+     $("#getting-started").countdown(new Date(2016, 1, 1), function(event) {
+         $(this).text(
+               event.strftime('%D days %H:%M:%S')
+         );
+       });
+   </script>
+</div>
+
+
+		 

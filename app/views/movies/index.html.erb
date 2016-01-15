@@ -1,0 +1,23 @@
+<div align="center">
+	<h1>Movie List</h1>
+	<hr/>
+</div>
+<script type="text/javascript">
+	$(document).ready(function (){
+		$("#shw").click(function (){
+			$("#myModal").show();
+		});
+	});
+</script>
+
+<div class="container">
+	<div class="row row-offcanvas row-offcanvas-right">
+		<div id="list"><%= render 'movielist' %></div>
+	</div>
+	<div align="center">
+			<%= will_paginate @results, renderer: BootstrapPagination::Rails %>
+		</div>
+</div>
+
+
+		 

@@ -1,0 +1,51 @@
+<%if(@results.any? && @results.is_a?(Array)) %>
+    <!--<div id="shows" class="transitions-enabled">-->
+			<% @results.each do |result| %>
+				<div class="col-md-6 col-lg-4">
+          <!--<div class="box">-->
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="panel-title">
+                  <div align="center"><b> <%= result['name'].to_s %> </b></div>
+                </div>
+                <div class="panel-body">
+                  <div align="center">
+                    <%= link_to image_tag(result['image']['medium'].to_s, :alt => "movie art"), movies_show_path(:id => result['id'].to_s), method: :get %> <br/>
+                    <b>Type:</b> <%= result['type'].to_s %> <br/>
+                    <b>Language:</b> <%= result['language'].to_s %> <br/>
+                    <b>Genres:</b>  <% if result['genres'].any? %>
+                              <% result['genres'].each do |item| %>
+                                <%= item ? item.to_s : "No Genres".to_s %>
+                              <%end%><br/>
+                            <% else %>
+                                <%= "No Genres".to_s %> <br/>
+                            <%end%>
+                    <b>Premiered:</b> <%= result['premiered'].to_s %> <br/>
+                    <b>Schedule:</b> <%= result['schedule']['time'].present? ? result['schedule']['time'].to_s : "No Fixed Time".to_s %>
+                              <% if result['schedule']['days'].any? %>
+                              <% result['schedule']['days'].each do |item| %>
+                                <%= item ? "| Showing on " + item.to_s : "No Day".to_s %> <br/>
+                              <%end%>
+                            <% else %>
+                                <%= "| No Day".to_s %> <br/>
+                            <%end%>
+                    <b>Average Rating:</b> <%= result['rating']['average'].to_s %> <br/>
+                    <b>TV Network:</b> <%= result['network'].present? ? result['network']['name'].to_s : 'N/A' %> <br/>
+                    <b>Country:</b> <%= result['network'].present? ? result['network']['country']['name'].to_s : 'N/A' %> <br/>
+
+                    <b>Movie Summary:</b> <a data-toggle="collapse" data-target="#<%= result['id'].to_s %>" href="#<%= result['id'].to_s %>"> Show Me... </a>
+
+                    <div id="<%= result['id'].to_s %>"  class="panel-collapse collapse">
+                      <div class="alert alert-success">
+                        <%= result['summary'].html_safe %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!--</div>-->
+				</div>
+			<%end%>
+    <!--</div>-->
+<%end%>
